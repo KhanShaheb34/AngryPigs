@@ -14,7 +14,7 @@ public class MenuScreen implements Screen {
     private Texture texture;
     private Sprite sprite;
     private SpriteBatch batch;
-    int x, y;
+    private int x, y;
 
     public MenuScreen(AngryPigs game) {
         this.game = game;
