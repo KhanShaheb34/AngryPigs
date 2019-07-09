@@ -9,7 +9,7 @@ public class Multiplayer implements Screen {
     private AngryPigs game;
     private SpriteBatch batch;
 
-    Multiplayer(AngryPigs g) {
+    public Multiplayer(AngryPigs g) {
         game = g;
         batch = g.batch;
     }

@@ -9,7 +9,7 @@ public class StoryMode implements Screen {
     private AngryPigs game;
     private SpriteBatch batch;
 
-    StoryMode(AngryPigs g) {
+    public StoryMode(AngryPigs g) {
         game = g;
         batch = g.batch;
     }
