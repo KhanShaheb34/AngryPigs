@@ -1,16 +1,17 @@
-package org.angrypigs.game.Scenes;
+package org.angrypigs.game.offline;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.angrypigs.game.AngryPigs;
 
-public class PlayScreen implements Screen {
+public class StoryMode implements Screen {
+
     private AngryPigs game;
     private SpriteBatch batch;
 
-    public PlayScreen(AngryPigs game) {
-        this.game = game;
-        this.batch = game.batch;
+    public StoryMode(AngryPigs g) {
+        game = g;
+        batch = g.batch;
     }
 
     @Override
@@ -20,11 +21,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        batch.begin();
 
-        /// Render Elements Here
-
-        batch.end();
     }
 
     @Override

@@ -6,6 +6,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.angrypigs.game.AngryPigs;
+import org.angrypigs.game.offline.StoryMode;
+import org.angrypigs.game.online.Multiplayer;
 
 public class MenuScreen implements Screen {
     private AngryPigs game;
@@ -27,6 +29,12 @@ public class MenuScreen implements Screen {
     }
 
     private void handleInput() {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            game.setScreen(new StoryMode(game));
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            game.setScreen(new Multiplayer(game));
+        }
     }
 
     @Override
