@@ -1,4 +1,7 @@
 package org.angrypigs.game.Sprites;
 
-public class Wizard {
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
+public class Wizard extends Sprite {
+
 }
