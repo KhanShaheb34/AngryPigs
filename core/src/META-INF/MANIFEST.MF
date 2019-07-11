@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Class-Path: json-20090211.jar okhttp-3.8.1.jar gdx-freetype-platform-1
+ .9.9-natives-desktop.jar jinput-platform-2.0.5-natives-windows.jar lw
+ jgl-platform-2.9.2-natives-windows.jar lwjgl-platform-2.9.2-natives-l
+ inux.jar gdx-box2d-1.9.9.jar okio-1.13.0.jar engine.io-client-1.0.0.j
+ ar gdx-backend-lwjgl-1.9.9.jar gdx-box2d-platform-1.9.9-natives-deskt
+ op.jar gdx-freetype-1.9.9.jar gdx-tools-1.9.9.jar jutils-1.0.0.jar gd
+ x-platform-1.9.9-natives-desktop.jar jorbis-0.0.17.jar gdx-1.9.9.jar 
+ jinput-platform-2.0.5-natives-linux.jar lwjgl-2.9.2.jar lwjgl-platfor
+ m-2.9.2-natives-osx.jar lwjgl_util-2.9.2.jar jlayer-1.0.1-gdx.jar box
+ 2dlights-1.4.jar jinput-2.0.5.jar gdx-backend-headless-1.9.9.jar sock
+ et.io-client-1.0.0.jar jinput-platform-2.0.5-natives-osx.jar
+Main-Class: org.angrypigs.game.desktop.DesktopLauncher
+
