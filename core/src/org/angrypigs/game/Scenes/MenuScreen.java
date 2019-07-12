@@ -5,18 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.angrypigs.game.AngryPigs;
 import org.angrypigs.game.offline.StoryMode;
 import org.angrypigs.game.online.Multiplayer;
 
 public class MenuScreen implements Screen {
     private AngryPigs game;
-    private SpriteBatch batch;
 
     public MenuScreen(AngryPigs game) {
         this.game = game;
-        this.batch = game.batch;
     }
 
     @Override
@@ -62,7 +59,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
+
     }
 }
 

@@ -43,7 +43,7 @@ public class JoinGame implements Screen {
 
     private void connectSocket() {
         try {
-            socket = IO.socket("https://dry-ravine-95521.herokuapp.com");
+            socket = IO.socket("http://192.168.31.56:8080");
             socket.connect();
         } catch (Exception e) {
             e.printStackTrace();
