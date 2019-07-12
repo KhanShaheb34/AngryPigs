@@ -12,7 +12,7 @@ public class DesktopLauncher {
 		config.width = Constants.WIDTH;
 		config.title = Constants.TITLE;
 		config.resizable = false;
-		config.backgroundFPS = 0;
+		config.backgroundFPS = Constants.FPS;
 		config.foregroundFPS = Constants.FPS;
 		new LwjglApplication(new AngryPigs(), config);
 	}
