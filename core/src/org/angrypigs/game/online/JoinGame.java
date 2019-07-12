@@ -21,10 +21,10 @@ import java.util.HashMap;
 
 public class JoinGame implements Screen {
 
-    private float timer;
-    private AngryPigs game;
     private Batch batch;
+    private float timer;
     private Socket socket;
+    private AngryPigs game;
     private Spaceship player;
     private Texture playerShip;
     private Texture friendlyShip;
@@ -32,95 +32,141 @@ public class JoinGame implements Screen {
     private HashMap <String, Spaceship> friendlyPlayers;
 
     public JoinGame(AngryPigs g) {
-        game = g;
-        batch = new SpriteBatch();
+
         playerShip = new Texture("ship/playerShip2.png");
         friendlyShip = new Texture("ship/playerShip.png");
         friendlyPlayers = new HashMap<String, Spaceship>();
+        batch = new SpriteBatch();
+        game = g;
         connectSocket();
         configSocketEvent();
     }
 
     private void connectSocket() {
+
         try {
-            socket = IO.socket("https://dry-ravine-95521.herokuapp.com");
+
+            socket = IO.socket("http://192.168.31.56:8080");
             socket.connect();
+
         } catch (Exception e) {
+
             e.printStackTrace();
         }
     }
 
     private void configSocketEvent() {
+
         socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+
             @Override
             public void call(Object... args) {
+
                 Gdx.app.log("SocketIO", "Connected");
                 player = new Spaceship(playerShip);
             }
+
         }).on("socketID", new Emitter.Listener() {
+
             @Override
             public void call(Object... args) {
+
                 JSONObject data = (JSONObject) args[0];
+
                 try {
+
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "My ID: "+ id);
+
                 } catch (JSONException e) {
+
                     Gdx.app.log("SocketIO", String.valueOf(e));
                 }
             }
         }).on("newPlayer", new Emitter.Listener() {
+
             @Override
             public void call(Object... args) {
+
                 JSONObject data = (JSONObject) args[0];
+
                 try {
+
                     String playerId = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player ID: "+ playerId);
                     friendlyPlayers.put(playerId, new Spaceship(friendlyShip));
+
                 } catch (JSONException e) {
+
                     Gdx.app.log("SocketIO", String.valueOf(e));
                 }
             }
         }).on("playerDisconnected", new Emitter.Listener() {
+
             @Override
             public void call(Object... args) {
+
                 JSONObject data = (JSONObject) args[0];
+
                 try {
+
                     String id = data.getString("id");
                     friendlyPlayers.remove(id);
+
                 } catch (JSONException e) {
+
                     Gdx.app.log("SocketIO", String.valueOf(e));
                 }
             }
         }).on("playerMoved", new Emitter.Listener() {
+
             @Override
             public void call(Object... args) {
+
                 JSONObject data = (JSONObject) args[0];
+
                 try {
-                    String playerId = data.getString("id");
+
                     Double x = data.getDouble("x");
                     Double y = data.getDouble("y");
+                    String playerId = data.getString("id");
+                    Double touchX = data.getDouble("touchX");
+                    Double touchY = data.getDouble("touchY");
+
                     if(friendlyPlayers.get(playerId) != null) {
+
                         friendlyPlayers.get(playerId).setPosition(x.floatValue(), y.floatValue());
+                        friendlyPlayers.get(playerId).setFirePos(touchX.floatValue(), touchY.floatValue());
                     }
+
                 } catch (JSONException e) {
+
                     e.printStackTrace();
                 }
             }
         }).on("getPlayers", new Emitter.Listener() {
+
             @Override
             public void call(Object... args) {
+
                 JSONArray objects = (JSONArray) args[0];
+
                 try {
+
                     for(int i = 0; i < objects.length(); i++) {
-                        Spaceship coopPlayer = new Spaceship(friendlyShip);
+
                         Vector2 pos = new Vector2();
+                        Spaceship coopPlayer = new Spaceship(friendlyShip);
                         pos.x = ((Double) objects.getJSONObject(i).getDouble("x")).floatValue();
                         pos.y = ((Double) objects.getJSONObject(i).getDouble("y")).floatValue();
                         coopPlayer.setPosition(pos.x, pos.y);
+                        coopPlayer.setFirePos(0,0);
 
                         friendlyPlayers.put(objects.getJSONObject(i).getString("id"), coopPlayer);
                     }
+
                 } catch (JSONException e) {
+
                     e.printStackTrace();
                 }
             }
@@ -128,14 +174,23 @@ public class JoinGame implements Screen {
     }
 
     private void updetaServer(float dt) {
+
         timer += dt;
-        if(timer >= UPDATE_TIME && player != null && player.hasMoved()) {
+        if(timer >= UPDATE_TIME && player != null &&
+                (player.hasMoved() || player.isFiring())) {
+
             JSONObject data = new JSONObject();
+
             try {
+
                 data.put("x", player.getX());
                 data.put("y", player.getY());
+                data.put("touchX", player.getFireposX());
+                data.put("touchY", player.getFireposY());
                 socket.emit("playerMoved", data);
+
             } catch (JSONException e) {
+
                 e.printStackTrace();
             }
         }
@@ -159,18 +214,31 @@ public class JoinGame implements Screen {
         if(player != null) {
             player.draw(batch);
         }
-        for(HashMap.Entry<String, Spaceship> entry: friendlyPlayers.entrySet()) {
+        for(HashMap.Entry<String, Spaceship> entry: friendlyPlayers.entrySet())
             entry.getValue().draw(batch);
-        }
         batch.end();
     }
 
     private void handleInput(float deltaTime) {
+
         if(player != null) {
+
             if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+
                 player.setPosition(player.getX() + (-200 * deltaTime), player.getY());
+
             } else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+
                 player.setPosition(player.getX() + (200 * deltaTime), player.getY());
+            }
+
+            if(Gdx.input.isTouched()) {
+
+                player.fire(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+
+            } else {
+
+                player.noFire();
             }
         }
     }
@@ -197,6 +265,7 @@ public class JoinGame implements Screen {
 
     @Override
     public void dispose() {
+
         playerShip.dispose();
         friendlyShip.dispose();
     }
