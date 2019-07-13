@@ -12,6 +12,7 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.angrypigs.game.AngryPigs;
+import org.angrypigs.game.online.sprites.Bullet;
 import org.angrypigs.game.online.sprites.Spaceship;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,7 @@ public class JoinGame implements Screen {
     private Batch batch;
     private float timer;
     private Socket socket;
+    private Bullet bullet;              /* THIS HAVE TO BE FIXED */
     private AngryPigs game;
     private Spaceship player;
     private Texture playerShip;
@@ -35,6 +37,7 @@ public class JoinGame implements Screen {
 
         playerShip = new Texture("ship/playerShip2.png");
         friendlyShip = new Texture("ship/playerShip.png");
+        bullet = new Bullet(new Texture("ship/bullet.png"));
         friendlyPlayers = new HashMap<String, Spaceship>();
         batch = new SpriteBatch();
         game = g;
@@ -213,8 +216,10 @@ public class JoinGame implements Screen {
         if(player != null) {
             player.draw(batch);
         }
-        for(HashMap.Entry<String, Spaceship> entry: friendlyPlayers.entrySet())
+        for(HashMap.Entry<String, Spaceship> entry: friendlyPlayers.entrySet()) {
             entry.getValue().draw(batch);
+            entry.getValue().bullet.draw(batch);
+        }
         batch.end();
     }
 
