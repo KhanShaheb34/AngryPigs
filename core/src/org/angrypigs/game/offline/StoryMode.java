@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.angrypigs.game.AngryPigs;
+import org.angrypigs.game.InputHandler.OfflineInputHandler;
 import org.angrypigs.game.Scenes.StoryHud;
 import org.angrypigs.game.Sprites.Background;
 import org.angrypigs.game.Sprites.Ground;
@@ -26,6 +27,7 @@ public class StoryMode implements Screen {
     private Background map;
 
     private Wizard wizard;
+    private OfflineInputHandler handler;
 
 
     public StoryMode(AngryPigs g) {
@@ -39,10 +41,14 @@ public class StoryMode implements Screen {
         hud = new StoryHud(g.batch);
 
         wizard = new Wizard();
+        handler = new OfflineInputHandler(this);
     }
 
     @Override
     public void render(float delta) {
+        if (!handler.processInput(delta)) {
+            wizard.idle();
+        }
         update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -60,20 +66,7 @@ public class StoryMode implements Screen {
     }
 
     private void update(float dt) {
-        handleInput(dt);
         cam.update();
-    }
-
-    private void handleInput(float dt) {
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            cam.position.x -= 2;
-
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            cam.position.x += 2;
-            wizard.walk(2);
-//            wizard.move(2);
-        }
     }
 
     @Override
@@ -105,6 +98,14 @@ public class StoryMode implements Screen {
     @Override
     public void dispose() {
         wizard.dispose();
+    }
+
+    public OrthographicCamera getCam() {
+        return cam;
+    }
+
+    public Wizard getWizard() {
+        return wizard;
     }
 }
 
