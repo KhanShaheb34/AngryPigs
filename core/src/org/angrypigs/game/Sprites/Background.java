@@ -27,4 +27,10 @@ public class Background {
         batch.draw(gr, (int)((cam.position.x-600)*(-0.1)), 0);
         batch.end();
     }
+
+    public void renderGr(SpriteBatch batch, OrthographicCamera cam) {
+        batch.begin();
+        batch.draw(gr, (int)((cam.position.x-600)*(-0.1)), 0);
+        batch.end();
+    }
 }

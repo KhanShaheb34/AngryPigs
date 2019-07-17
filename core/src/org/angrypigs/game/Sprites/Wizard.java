@@ -1,29 +1,38 @@
 package org.angrypigs.game.Sprites;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.*;
 
 public class Wizard extends Sprite {
-    private World world;
-    private Body body;
+    private TextureAtlas atlas;
+    private Animation<TextureRegion> animation;
+    private float elapsedTime;
+    private Sprite sprite;
 
-    public Wizard(World world) {
-        this.world = world;
-        defineBody();
+    public Wizard() {
+        atlas = new TextureAtlas("Spritesheets/MagicWizard.atlas");
+        animation = new Animation<TextureRegion>(1f/8f, atlas.findRegions("5_ATTACK"));
+        sprite = new Sprite(animation.getKeyFrame(elapsedTime, true));
+        sprite.setScale(0.6f);
+        sprite.setPosition(50, -50);
     }
 
-    private void defineBody() {
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(100, 200);
+    public void draw(SpriteBatch batch) {
+        batch.begin();
+        sprite.draw(batch);
+        batch.end();
+    }
 
-        body = world.createBody(bodyDef);
+    public void walk(int x) {
+        elapsedTime += Gdx.graphics.getDeltaTime();
+        sprite.setRegion(animation.getKeyFrame(elapsedTime, true));
+        sprite.setPosition(sprite.getX() + x, sprite.getY());
+    }
 
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(25, 25);
+    public void move(int x) {
+    }
 
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
-        body.createFixture(fixtureDef);
+    public void dispose() {
+        atlas.dispose();
     }
 }

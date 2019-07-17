@@ -1,0 +1,257 @@
+
+MagicWizard.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+1_IDLE
+  rotate: false
+  xy: 2, 1572
+  size: 387, 350
+  orig: 387, 350
+  offset: 0, 0
+  index: 0
+1_IDLE
+  rotate: false
+  xy: 391, 1572
+  size: 387, 350
+  orig: 387, 350
+  offset: 0, 0
+  index: 1
+1_IDLE
+  rotate: false
+  xy: 780, 1572
+  size: 387, 350
+  orig: 387, 350
+  offset: 0, 0
+  index: 2
+1_IDLE
+  rotate: false
+  xy: 1169, 1572
+  size: 387, 350
+  orig: 387, 350
+  offset: 0, 0
+  index: 3
+1_IDLE
+  rotate: false
+  xy: 1558, 1572
+  size: 387, 350
+  orig: 387, 350
+  offset: 0, 0
+  index: 4
+2_WALK
+  rotate: false
+  xy: 2, 824
+  size: 419, 381
+  orig: 419, 381
+  offset: 0, 0
+  index: 0
+2_WALK
+  rotate: false
+  xy: 423, 824
+  size: 419, 381
+  orig: 419, 381
+  offset: 0, 0
+  index: 1
+2_WALK
+  rotate: false
+  xy: 844, 824
+  size: 419, 381
+  orig: 419, 381
+  offset: 0, 0
+  index: 2
+2_WALK
+  rotate: false
+  xy: 1265, 824
+  size: 419, 381
+  orig: 419, 381
+  offset: 0, 0
+  index: 3
+2_WALK
+  rotate: false
+  xy: 2, 441
+  size: 419, 381
+  orig: 419, 381
+  offset: 0, 0
+  index: 4
+3_RUN
+  rotate: false
+  xy: 986, 2
+  size: 488, 431
+  orig: 488, 431
+  offset: 0, 0
+  index: 0
+3_RUN
+  rotate: false
+  xy: 1476, 2
+  size: 488, 431
+  orig: 488, 431
+  offset: 0, 0
+  index: 1
+6_HURT
+  rotate: false
+  xy: 423, 435
+  size: 490, 387
+  orig: 490, 387
+  offset: 0, 0
+  index: 0
+6_HURT
+  rotate: false
+  xy: 915, 435
+  size: 490, 387
+  orig: 490, 387
+  offset: 0, 0
+  index: 1
+6_HURT
+  rotate: false
+  xy: 1407, 435
+  size: 490, 387
+  orig: 490, 387
+  offset: 0, 0
+  index: 2
+6_HURT
+  rotate: false
+  xy: 2, 46
+  size: 490, 387
+  orig: 490, 387
+  offset: 0, 0
+  index: 3
+6_HURT
+  rotate: false
+  xy: 494, 46
+  size: 490, 387
+  orig: 490, 387
+  offset: 0, 0
+  index: 4
+7_DIE
+  rotate: false
+  xy: 2, 1207
+  size: 381, 363
+  orig: 381, 363
+  offset: 0, 0
+  index: 0
+7_DIE
+  rotate: false
+  xy: 385, 1207
+  size: 381, 363
+  orig: 381, 363
+  offset: 0, 0
+  index: 1
+7_DIE
+  rotate: false
+  xy: 768, 1207
+  size: 381, 363
+  orig: 381, 363
+  offset: 0, 0
+  index: 2
+7_DIE
+  rotate: false
+  xy: 1151, 1207
+  size: 381, 363
+  orig: 381, 363
+  offset: 0, 0
+  index: 3
+7_DIE
+  rotate: false
+  xy: 1534, 1207
+  size: 381, 363
+  orig: 381, 363
+  offset: 0, 0
+  index: 4
+
+MagicWizard2.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+3_RUN
+  rotate: false
+  xy: 1376, 1435
+  size: 488, 431
+  orig: 488, 431
+  offset: 0, 0
+  index: 2
+3_RUN
+  rotate: false
+  xy: 2, 7
+  size: 488, 431
+  orig: 488, 431
+  offset: 0, 0
+  index: 3
+3_RUN
+  rotate: false
+  xy: 689, 483
+  size: 488, 431
+  orig: 488, 431
+  offset: 0, 0
+  index: 4
+4_JUMP
+  rotate: false
+  xy: 1376, 997
+  size: 402, 436
+  orig: 402, 436
+  offset: 0, 0
+  index: 0
+4_JUMP
+  rotate: false
+  xy: 492, 2
+  size: 402, 436
+  orig: 402, 436
+  offset: 0, 0
+  index: 1
+4_JUMP
+  rotate: false
+  xy: 896, 45
+  size: 402, 436
+  orig: 402, 436
+  offset: 0, 0
+  index: 2
+4_JUMP
+  rotate: false
+  xy: 1376, 559
+  size: 402, 436
+  orig: 402, 436
+  offset: 0, 0
+  index: 3
+4_JUMP
+  rotate: false
+  xy: 1300, 121
+  size: 402, 436
+  orig: 402, 436
+  offset: 0, 0
+  index: 4
+5_ATTACK
+  rotate: false
+  xy: 2, 1392
+  size: 685, 474
+  orig: 685, 474
+  offset: 0, 0
+  index: 0
+5_ATTACK
+  rotate: false
+  xy: 2, 916
+  size: 685, 474
+  orig: 685, 474
+  offset: 0, 0
+  index: 1
+5_ATTACK
+  rotate: false
+  xy: 689, 1392
+  size: 685, 474
+  orig: 685, 474
+  offset: 0, 0
+  index: 2
+5_ATTACK
+  rotate: false
+  xy: 2, 440
+  size: 685, 474
+  orig: 685, 474
+  offset: 0, 0
+  index: 3
+5_ATTACK
+  rotate: false
+  xy: 689, 916
+  size: 685, 474
+  orig: 685, 474
+  offset: 0, 0
+  index: 4

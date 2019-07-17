@@ -5,4 +5,5 @@ public class Constants {
     public static final int WIDTH = 1200;
     public static final String TITLE = "Angry Pigs";
     public static final int FPS = 60;
+    public static final int PPM = 100;
 }
