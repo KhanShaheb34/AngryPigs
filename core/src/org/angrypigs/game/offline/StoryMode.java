@@ -14,6 +14,7 @@ import org.angrypigs.game.AngryPigs;
 import org.angrypigs.game.InputHandler.OfflineInputHandler;
 import org.angrypigs.game.Scenes.StoryHud;
 import org.angrypigs.game.Sprites.Background;
+import org.angrypigs.game.Sprites.Bullet;
 import org.angrypigs.game.Sprites.Ground;
 import org.angrypigs.game.Sprites.Wizard;
 import org.angrypigs.game.Util.Constants;
@@ -27,6 +28,7 @@ public class StoryMode implements Screen {
     private Background map;
 
     private Wizard wizard;
+    public Bullet bullet;
     private OfflineInputHandler handler;
 
 
@@ -39,6 +41,8 @@ public class StoryMode implements Screen {
 
         map = new Background("BG/Map1");
         hud = new StoryHud(g.batch);
+
+        bullet = new Bullet(0, 0, 0, 0);
 
         wizard = new Wizard();
         handler = new OfflineInputHandler(this);
@@ -58,6 +62,7 @@ public class StoryMode implements Screen {
         map.render(game.batch, cam);
 
         wizard.draw(game.batch);
+        bullet.draw(game.batch);
 
         map.renderGr(game.batch, cam);
 
@@ -67,6 +72,11 @@ public class StoryMode implements Screen {
 
     private void update(float dt) {
         cam.update();
+        bullet.update();
+    }
+
+    public void shoot(float sx, float sy, float ex, float ey) {
+        bullet = new Bullet(sx, sy, ex, ey);
     }
 
     @Override

@@ -89,6 +89,10 @@ public class Wizard extends Sprite {
                 break;
         }
 
+        if(attacking && attackAnimation.isAnimationFinished(stateTime)) {
+
+        }
+
         elapsedTime += Gdx.graphics.getDeltaTime();
     }
 
@@ -164,6 +168,10 @@ public class Wizard extends Sprite {
         this.state = HURT;
         vel = new PVector(0, 0);
         hurting = true;
+    }
+
+    public PVector getPosition() {
+        return loc;
     }
 
     public void dispose() {

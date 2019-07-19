@@ -72,6 +72,14 @@ public class PVector {
         this.y = vector.y;
     }
 
+    public void limit(float topspeed){
+        if(mag() > topspeed){
+            norm();
+            mult(topspeed);
+        }
+
+    }
+
     @Override
     public String toString() {
         return "PVector {" +
