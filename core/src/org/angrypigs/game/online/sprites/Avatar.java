@@ -12,7 +12,6 @@ public class Avatar extends Sprite {
 
     public Vector2 firePos;
     public Vector2 previousPos;
-    public Bullet bullet;
 
     public Avatar(Texture texture) {
 
@@ -42,34 +41,6 @@ public class Avatar extends Sprite {
     }
 
     public void setFirePos(float x, float y) {
-
         firePos = new Vector2(x, y);
-        fire(firePos);
-    }
-
-    private void fire() {
-
-                /* THIS HAVE TO BE FIXED */
-        if(firePos.x != 0 && firePos.y != 0) {
-            //bullet.setPosition(Gdx.input.getX(), Gdx.input.getY());
-        }
-    }
-
-    public void fire(Vector2 pos) {
-
-                /* THIS HAVE TO BE FIXED */
-        bullet = new Bullet(new Texture(Gdx.files.internal("ship/bullet.png")));
-        firePos = pos;
-        System.out.println(firePos.x +", "+ firePos.y);
-        //if(pos.x != 0 && pos.y != 0)
-        //    fire();
-    }
-
-    public void noFire() {
-        firePos = new Vector2(0,0);
-    }
-
-    public boolean isFiring() {
-        return Gdx.input.isTouched();
     }
 }

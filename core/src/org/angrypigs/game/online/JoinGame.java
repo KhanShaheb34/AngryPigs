@@ -12,7 +12,6 @@ import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.angrypigs.game.AngryPigs;
-import org.angrypigs.game.online.sprites.Bullet;
 import org.angrypigs.game.online.sprites.Avatar;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,19 +24,17 @@ public class JoinGame implements Screen {
     private Batch batch;
     private float timer;
     private Socket socket;
-    private Bullet bullet;              /* THIS HAVE TO BE FIXED */
     private AngryPigs game;
     private Avatar player;
-    private Texture playerShip;
-    private Texture friendlyShip;
+    private Texture playerTex;
+    private Texture enemyTex;
     private final float UPDATE_TIME = 1 / 60f;
     private HashMap <String, Avatar> friendlyPlayers;
 
     public JoinGame(AngryPigs g) {
 
-        playerShip = new Texture("ship/playerShip2.png");
-        friendlyShip = new Texture("ship/playerShip.png");
-        bullet = new Bullet(new Texture("ship/bullet.png"));
+        playerTex = new Texture("ship/playerShip2.png");
+        enemyTex = new Texture("ship/playerTex.png");
         friendlyPlayers = new HashMap<String, Avatar>();
         batch = new SpriteBatch();
         game = g;
@@ -65,7 +62,7 @@ public class JoinGame implements Screen {
             public void call(Object... args) {
 
                 Gdx.app.log("SocketIO", "Connected");
-                player = new Avatar(playerShip);
+                player = new Avatar(playerTex);
             }
 
         }).on("socketID", new Emitter.Listener() {
@@ -96,7 +93,7 @@ public class JoinGame implements Screen {
 
                     String playerId = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player ID: "+ playerId);
-                    friendlyPlayers.put(playerId, new Avatar(friendlyShip));
+                    friendlyPlayers.put(playerId, new Avatar(enemyTex));
 
                 } catch (JSONException e) {
 
@@ -158,11 +155,10 @@ public class JoinGame implements Screen {
                     for(int i = 0; i < objects.length(); i++) {
 
                         Vector2 pos = new Vector2();
-                        Avatar coopPlayer = new Avatar(friendlyShip);
+                        Avatar coopPlayer = new Avatar(enemyTex);
                         pos.x = ((Double) objects.getJSONObject(i).getDouble("x")).floatValue();
                         pos.y = ((Double) objects.getJSONObject(i).getDouble("y")).floatValue();
                         coopPlayer.setPosition(pos.x, pos.y);
-                        coopPlayer.setFirePos(0,0);
 
                         friendlyPlayers.put(objects.getJSONObject(i).getString("id"), coopPlayer);
                     }
@@ -178,8 +174,7 @@ public class JoinGame implements Screen {
     private void updetaServer(float dt) {
 
         timer += dt;
-        if(timer >= UPDATE_TIME && player != null &&
-                (player.hasMoved() || player.isFiring())) {
+        if(timer >= UPDATE_TIME && player != null && (player.hasMoved())) {
 
             JSONObject data = new JSONObject();
 
@@ -218,8 +213,6 @@ public class JoinGame implements Screen {
         }
         for(HashMap.Entry<String, Avatar> entry: friendlyPlayers.entrySet()) {
             entry.getValue().draw(batch);
-            entry.getValue().bullet = new Bullet(bullet, entry.getValue().previousPos, entry.getValue().firePos);
-            entry.getValue().bullet.update(delta);
         }
         batch.end();
     }
@@ -235,15 +228,6 @@ public class JoinGame implements Screen {
             } else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
 
                 player.setPosition(player.getX() + (200 * deltaTime), player.getY());
-            }
-
-            if(Gdx.input.isTouched()) {
-
-                player.fire(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-
-            } else {
-
-                player.noFire();
             }
         }
     }
@@ -271,7 +255,7 @@ public class JoinGame implements Screen {
     @Override
     public void dispose() {
 
-        playerShip.dispose();
-        friendlyShip.dispose();
+        playerTex.dispose();
+        enemyTex.dispose();
     }
 }
