@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import org.angrypigs.game.Util.Constants;
 
-public class Spaceship extends Sprite {
+public class Avatar extends Sprite {
 
-    private Vector2 firePos;
-    private Vector2 previousPos;
+    public Vector2 firePos;
+    public Vector2 previousPos;
     public Bullet bullet;
 
-    public Spaceship(Texture texture) {
+    public Avatar(Texture texture) {
 
         super(texture);
         firePos = new Vector2(0,0);
@@ -51,7 +51,7 @@ public class Spaceship extends Sprite {
 
                 /* THIS HAVE TO BE FIXED */
         if(firePos.x != 0 && firePos.y != 0) {
-            bullet.setPosition(Gdx.input.getX(), Gdx.input.getY());
+            //bullet.setPosition(Gdx.input.getX(), Gdx.input.getY());
         }
     }
 
@@ -60,8 +60,9 @@ public class Spaceship extends Sprite {
                 /* THIS HAVE TO BE FIXED */
         bullet = new Bullet(new Texture(Gdx.files.internal("ship/bullet.png")));
         firePos = pos;
-        if(pos.x != 0 && pos.y != 0)
-            fire();
+        System.out.println(firePos.x +", "+ firePos.y);
+        //if(pos.x != 0 && pos.y != 0)
+        //    fire();
     }
 
     public void noFire() {

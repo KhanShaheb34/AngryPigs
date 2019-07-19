@@ -13,7 +13,7 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.angrypigs.game.AngryPigs;
 import org.angrypigs.game.online.sprites.Bullet;
-import org.angrypigs.game.online.sprites.Spaceship;
+import org.angrypigs.game.online.sprites.Avatar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,18 +27,18 @@ public class JoinGame implements Screen {
     private Socket socket;
     private Bullet bullet;              /* THIS HAVE TO BE FIXED */
     private AngryPigs game;
-    private Spaceship player;
+    private Avatar player;
     private Texture playerShip;
     private Texture friendlyShip;
     private final float UPDATE_TIME = 1 / 60f;
-    private HashMap <String, Spaceship> friendlyPlayers;
+    private HashMap <String, Avatar> friendlyPlayers;
 
     public JoinGame(AngryPigs g) {
 
         playerShip = new Texture("ship/playerShip2.png");
         friendlyShip = new Texture("ship/playerShip.png");
         bullet = new Bullet(new Texture("ship/bullet.png"));
-        friendlyPlayers = new HashMap<String, Spaceship>();
+        friendlyPlayers = new HashMap<String, Avatar>();
         batch = new SpriteBatch();
         game = g;
         connectSocket();
@@ -48,7 +48,7 @@ public class JoinGame implements Screen {
     private void connectSocket() {
 
         try {
-            socket = IO.socket("http://192.168.31.56:8080");
+            socket = IO.socket("http://127.0.0.1:8080");
             socket.connect();
 
         } catch (Exception e) {
@@ -65,7 +65,7 @@ public class JoinGame implements Screen {
             public void call(Object... args) {
 
                 Gdx.app.log("SocketIO", "Connected");
-                player = new Spaceship(playerShip);
+                player = new Avatar(playerShip);
             }
 
         }).on("socketID", new Emitter.Listener() {
@@ -96,7 +96,7 @@ public class JoinGame implements Screen {
 
                     String playerId = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player ID: "+ playerId);
-                    friendlyPlayers.put(playerId, new Spaceship(friendlyShip));
+                    friendlyPlayers.put(playerId, new Avatar(friendlyShip));
 
                 } catch (JSONException e) {
 
@@ -158,7 +158,7 @@ public class JoinGame implements Screen {
                     for(int i = 0; i < objects.length(); i++) {
 
                         Vector2 pos = new Vector2();
-                        Spaceship coopPlayer = new Spaceship(friendlyShip);
+                        Avatar coopPlayer = new Avatar(friendlyShip);
                         pos.x = ((Double) objects.getJSONObject(i).getDouble("x")).floatValue();
                         pos.y = ((Double) objects.getJSONObject(i).getDouble("y")).floatValue();
                         coopPlayer.setPosition(pos.x, pos.y);
@@ -216,9 +216,10 @@ public class JoinGame implements Screen {
         if(player != null) {
             player.draw(batch);
         }
-        for(HashMap.Entry<String, Spaceship> entry: friendlyPlayers.entrySet()) {
+        for(HashMap.Entry<String, Avatar> entry: friendlyPlayers.entrySet()) {
             entry.getValue().draw(batch);
-            entry.getValue().bullet.draw(batch);
+            entry.getValue().bullet = new Bullet(bullet, entry.getValue().previousPos, entry.getValue().firePos);
+            entry.getValue().bullet.update(delta);
         }
         batch.end();
     }
