@@ -30,9 +30,9 @@ public class Wizard extends Sprite {
         idleAnimation = new Animation<TextureRegion>(1f/6f, atlas.findRegions("1_IDLE"));
         walkAnimation = new Animation<TextureRegion>(1f/6f, atlas.findRegions("2_WALK"));
         runAnimation = new Animation<TextureRegion>(1f/6f, atlas.findRegions("3_RUN"));
-        jumpAnimation = new Animation<TextureRegion>(1f/6f, atlas.findRegions("4_JUMP"));
-        attackAnimation = new Animation<TextureRegion>(1f/6f, atlas.findRegions("5_ATTACK"));
-        hurtAnimation = new Animation<TextureRegion>(1f/6f, atlas.findRegions("6_HURT"));
+        jumpAnimation = new Animation<TextureRegion>(1f/8f, atlas.findRegions("4_JUMP"));
+        attackAnimation = new Animation<TextureRegion>(1f/8f, atlas.findRegions("5_ATTACK"));
+        hurtAnimation = new Animation<TextureRegion>(1f/8f, atlas.findRegions("6_HURT"));
         dieAnimation = new Animation<TextureRegion>(1f/6f, atlas.findRegions("7_DIE"));
 
         sprite = new Sprite(idleAnimation.getKeyFrame(elapsedTime, true));
@@ -59,18 +59,33 @@ public class Wizard extends Sprite {
         switch (this.state) {
             case IDLE:
                 sprite.setRegion(idleAnimation.getKeyFrame(elapsedTime, true));
+                sprite.setScale(1f);
                 break;
             case WALK:
                 sprite.setRegion(walkAnimation.getKeyFrame(elapsedTime, true));
+                sprite.setScale(1.06f);
                 break;
             case RUN:
                 sprite.setRegion(runAnimation.getKeyFrame(elapsedTime, true));
+                sprite.setScale(1.21f);
+                sprite.setY(sprite.getY() - 8);
                 break;
             case DIE:
                 sprite.setRegion(dieAnimation.getKeyFrame(stateTime, false));
                 break;
             case JUMP:
                 sprite.setRegion(jumpAnimation.getKeyFrame(stateTime, false));
+                sprite.setScale(1f, 1.25f);
+                break;
+            case ATTACK:
+                sprite.setRegion(attackAnimation.getKeyFrame(stateTime, false));
+                sprite.setScale(1.75f, 1.35f);
+                sprite.setX(sprite.getX() + 70);
+                break;
+            case HURT:
+                sprite.setRegion(hurtAnimation.getKeyFrame(stateTime, false));
+                sprite.setScale(1.25f, 1.1f);
+                sprite.setY(sprite.getY() - 5);
                 break;
         }
 
@@ -96,21 +111,29 @@ public class Wizard extends Sprite {
     }
 
     public void walk(float x) {
-        if((dieAnimation.isAnimationFinished(stateTime) && jumpAnimation.isAnimationFinished(stateTime) && hurtAnimation.isAnimationFinished(stateTime) && attackAnimation.isAnimationFinished(stateTime))) {
+        if((dieAnimation.isAnimationFinished(stateTime)
+                && jumpAnimation.isAnimationFinished(stateTime)
+                && hurtAnimation.isAnimationFinished(stateTime)
+                && attackAnimation.isAnimationFinished(stateTime))) {
             this.state = WALK;
         }
         vel.add(x, 0);
     }
 
     public void idle() {
-        if((dieAnimation.isAnimationFinished(stateTime) && jumpAnimation.isAnimationFinished(stateTime) && hurtAnimation.isAnimationFinished(stateTime) && attackAnimation.isAnimationFinished(stateTime))){
+        if((dieAnimation.isAnimationFinished(stateTime)
+                && jumpAnimation.isAnimationFinished(stateTime)
+                && hurtAnimation.isAnimationFinished(stateTime)
+                && attackAnimation.isAnimationFinished(stateTime))){
             this.state = IDLE;
             vel = new PVector(0, 0);
         }
     }
 
     public void run(float x) {
-        if((dieAnimation.isAnimationFinished(stateTime) && jumpAnimation.isAnimationFinished(stateTime) && hurtAnimation.isAnimationFinished(stateTime) && attackAnimation.isAnimationFinished(stateTime))) {
+        if((dieAnimation.isAnimationFinished(stateTime)
+                && jumpAnimation.isAnimationFinished(stateTime)
+                && hurtAnimation.isAnimationFinished(stateTime))) {
             this.state = RUN;
         }
         vel.add(x, 0);
@@ -123,11 +146,24 @@ public class Wizard extends Sprite {
         dying = true;
     }
 
+    public void attack() {
+        stateTime = 0;
+        this.state = ATTACK;
+        attacking = true;
+    }
+
     public void jump(float force) {
         acc = new PVector(0, force);
         stateTime = 0;
         this.state = JUMP;
         jumping = true;
+    }
+
+    public void hurt() {
+        stateTime = 0;
+        this.state = HURT;
+        vel = new PVector(0, 0);
+        hurting = true;
     }
 
     public void dispose() {

@@ -36,6 +36,14 @@ public class OfflineInputHandler {
             wizard.die();
             return true;
         }
+        if(Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.F)) {
+            wizard.attack();
+            return true;
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.H)) {
+            wizard.hurt();
+            return true;
+        }
         return false;
     }
 }
