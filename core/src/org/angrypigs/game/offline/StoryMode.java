@@ -22,7 +22,6 @@ import java.util.ArrayList;
 public class StoryMode implements Screen {
 
     private AngryPigs game;
-    private StoryHud hud;
     private OrthographicCamera cam;
     private Viewport viewport;
     private Background map;
@@ -41,7 +40,6 @@ public class StoryMode implements Screen {
         cam.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
 
         map = new Background("BG/Map1");
-        hud = new StoryHud(g.batch);
 
         bullets = new ArrayList<Bullet>();
         toRemoveBul = new ArrayList<Bullet>();
@@ -90,11 +88,7 @@ public class StoryMode implements Screen {
         }
 
         explosions.removeAll(toRemoveExp);
-
         map.renderGr(game.batch, cam);
-
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
     }
 
     private void update(float dt) {
@@ -111,7 +105,6 @@ public class StoryMode implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        hud.stage.getViewport().update(width, height);
         viewport.update(width, height);
     }
 
@@ -138,7 +131,6 @@ public class StoryMode implements Screen {
     @Override
     public void dispose() {
         wizard.dispose();
-        hud.dispose();
         game.dispose();
     }
 

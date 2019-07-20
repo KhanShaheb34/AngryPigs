@@ -27,12 +27,12 @@ public class OfflineInputHandler {
         }
         if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) && Gdx.input.isKeyPressed(Input.Keys.D)) {
                 wizard.run(5f);
-                cam.position.x += 5;
+                if (cam.position.x < 2700) cam.position.x += 5;
                 return true;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.D)) {
             wizard.walk(2f);
-            cam.position.x += 2;
+            if (cam.position.x < 2700) cam.position.x += 2;
             return true;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.X)) {

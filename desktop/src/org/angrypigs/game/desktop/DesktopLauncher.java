@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height = Constants.HEIGHT;
 		config.width = Constants.WIDTH;
-		config.title = Constants.TITLE;
+		config.title = " ";
 		config.resizable = false;
 		config.backgroundFPS = Constants.FPS;
 		config.foregroundFPS = Constants.FPS;
