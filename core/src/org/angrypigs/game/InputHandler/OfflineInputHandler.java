@@ -39,7 +39,7 @@ public class OfflineInputHandler {
             wizard.die();
             return true;
         }
-        if(Gdx.input.isTouched() || Gdx.input.isKeyPressed(Input.Keys.F)) {
+        if(Gdx.input.justTouched()) {
             wizard.attack();
             game.shoot(wizard.getPosition().x + 140, wizard.getPosition().y + 120, getMouse().x - 16, getMouse().y - 16);
             return true;
