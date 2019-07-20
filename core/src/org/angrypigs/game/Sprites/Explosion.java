@@ -12,7 +12,7 @@ public class Explosion extends Sprite {
 
     public Explosion(float x, float y) {
         atlas = new TextureAtlas("Bullets/Explosion.atlas");
-        animation = new Animation<TextureRegion>(1f/30f, atlas.findRegions("explosion"));
+        animation = new Animation<TextureRegion>(1f/60f, atlas.findRegions("explosion"));
         sprite = new Sprite(animation.getKeyFrame(elapsedTime, false));
         sprite.setPosition(x - 128, y - 128);
     }

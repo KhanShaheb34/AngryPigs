@@ -28,8 +28,7 @@ public class Bullet extends Sprite {
         dir.mult(1f);
         acc = dir;
 
-        topSpeed = 20.0f;
-
+        topSpeed = 30.0f;
         sprite.setPosition(loc.x, loc.y);
     }
 
