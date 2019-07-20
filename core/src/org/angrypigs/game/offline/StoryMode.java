@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.angrypigs.game.AngryPigs;
 import org.angrypigs.game.InputHandler.OfflineInputHandler;
+import org.angrypigs.game.Scenes.MenuScreen;
 import org.angrypigs.game.Scenes.StoryHud;
 import org.angrypigs.game.Sprites.*;
 import org.angrypigs.game.Util.Constants;
@@ -58,6 +59,9 @@ public class StoryMode implements Screen {
         if (!handler.processInput(delta)) {
             wizard.idle();
         }
+        if(Gdx.input.isKeyPressed(Input.Keys.BACKSPACE))
+            game.setScreen(new MenuScreen(game));
+
         update(delta);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);

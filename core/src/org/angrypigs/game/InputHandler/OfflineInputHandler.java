@@ -48,6 +48,7 @@ public class OfflineInputHandler {
             wizard.hurt();
             return true;
         }
+
         return false;
     }
 
