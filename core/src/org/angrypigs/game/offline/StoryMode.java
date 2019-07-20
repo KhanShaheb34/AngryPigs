@@ -13,11 +13,10 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import org.angrypigs.game.AngryPigs;
 import org.angrypigs.game.InputHandler.OfflineInputHandler;
 import org.angrypigs.game.Scenes.StoryHud;
-import org.angrypigs.game.Sprites.Background;
-import org.angrypigs.game.Sprites.Bullet;
-import org.angrypigs.game.Sprites.Ground;
-import org.angrypigs.game.Sprites.Wizard;
+import org.angrypigs.game.Sprites.*;
 import org.angrypigs.game.Util.Constants;
+
+import java.util.ArrayList;
 
 public class StoryMode implements Screen {
 
@@ -28,7 +27,8 @@ public class StoryMode implements Screen {
     private Background map;
 
     private Wizard wizard;
-    public Bullet bullet;
+    private ArrayList<Bullet> bullets, toRemoveBul;
+    private ArrayList<Explosion> explosions, toRemoveExp;
     private OfflineInputHandler handler;
 
 
@@ -42,7 +42,12 @@ public class StoryMode implements Screen {
         map = new Background("BG/Map1");
         hud = new StoryHud(g.batch);
 
-        bullet = new Bullet(0, 0, 0, 0);
+        bullets = new ArrayList<Bullet>();
+        toRemoveBul = new ArrayList<Bullet>();
+        bullets.add(new Bullet(0,0,0,0));
+
+        explosions = new ArrayList<Explosion>();
+        toRemoveExp = new ArrayList<Explosion>();
 
         wizard = new Wizard();
         handler = new OfflineInputHandler(this);
@@ -62,7 +67,25 @@ public class StoryMode implements Screen {
         map.render(game.batch, cam);
 
         wizard.draw(game.batch);
-        bullet.draw(game.batch);
+
+        for(Bullet bullet: bullets) {
+            bullet.draw(game.batch);
+            if (bullet.removed) {
+                explosions.add(new Explosion(bullet.getLoc().x, bullet.getLoc().y));
+                toRemoveBul.add(bullet);
+            }
+        }
+
+        bullets.removeAll(toRemoveBul);
+
+        for(Explosion explosion: explosions) {
+            explosion.draw(game.batch);
+            if (explosion.exploded) {
+                toRemoveExp.add(explosion);
+            }
+        }
+
+        explosions.removeAll(toRemoveExp);
 
         map.renderGr(game.batch, cam);
 
@@ -72,11 +95,14 @@ public class StoryMode implements Screen {
 
     private void update(float dt) {
         cam.update();
-        bullet.update();
+        for (Bullet bullet: bullets) {
+            bullet.update();
+        }
     }
 
     public void shoot(float sx, float sy, float ex, float ey) {
-        bullet = new Bullet(sx, sy, ex, ey);
+        Bullet bullet = new Bullet(sx, sy, ex, ey);
+        bullets.add(bullet);
     }
 
     @Override

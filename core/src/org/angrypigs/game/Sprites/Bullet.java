@@ -9,7 +9,7 @@ public class Bullet extends Sprite {
     private Sprite sprite;
     private PVector loc, vel, acc, dir;
     private float topSpeed, sx, sy, ex, ey;
-    private boolean removed;
+    public boolean removed;
 
     public Bullet(float sx, float sy, float ex, float ey) {
         this.sx = sx;
@@ -40,14 +40,20 @@ public class Bullet extends Sprite {
 
         if(!removed) sprite.setPosition(loc.x, loc.y);
 
-        if(loc.x > ex || loc.y > ey || loc.y < 0)
+        if(loc.x > ex || loc.y > ey || loc.y < 0){
             removed = true;
+
+        }
 
     }
 
     public void draw(SpriteBatch sb) {
         sb.begin();
-        sprite.draw(sb);
+        if(!removed) sprite.draw(sb);
         sb.end();
+    }
+
+    public PVector getLoc() {
+        return loc;
     }
 }
