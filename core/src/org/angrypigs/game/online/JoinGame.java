@@ -5,37 +5,51 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Vector2;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.angrypigs.game.AngryPigs;
+import org.angrypigs.game.Sprites.Bullet;
+import org.angrypigs.game.Util.Constants;
 import org.angrypigs.game.online.sprites.Avatar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.Format;
 import java.util.HashMap;
 
 public class JoinGame implements Screen {
 
+    private int it = 0, pt, prev;
     private Batch batch;
     private float timer;
     private Socket socket;
     private AngryPigs game;
     private Avatar player;
+    private Bullet bullet;
     private Texture playerTex;
     private Texture enemyTex;
+    private Sprite sprite;
+    private TextureAtlas atlas;
+    private float elapsedTime;
+    private Animation<TextureRegion> connectAnimation;
     private final float UPDATE_TIME = 1 / 60f;
     private HashMap <String, Avatar> friendlyPlayers;
 
     public JoinGame(AngryPigs g) {
 
+        atlas = new TextureAtlas(Gdx.files.internal("Spritesheets/wait.atlas"));
+        connectAnimation = new Animation<TextureRegion>(1 / 20f, atlas.findRegions("wait"));
         playerTex = new Texture("ship/playerShip2.png");
-        enemyTex = new Texture("ship/playerTex.png");
+        enemyTex = new Texture("ship/playerShip.png");
+        bullet = new Bullet(0, 0, 0, 0);
         friendlyPlayers = new HashMap<String, Avatar>();
+        sprite = new Sprite(connectAnimation.getKeyFrame(elapsedTime, true));
+        sprite.setPosition(Constants.WIDTH / 2 - 110, Constants.HEIGHT / 2 - 150);
+        sprite.setScale(0.7f);
         batch = new SpriteBatch();
         game = g;
         connectSocket();
@@ -204,14 +218,21 @@ public class JoinGame implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 
+        elapsedTime += delta;
         handleInput(Gdx.graphics.getDeltaTime());
         updetaServer(Gdx.graphics.getDeltaTime());
+        bullet.update();
 
         batch.begin();
         if(player != null) {
             player.draw(batch);
+        } else {
+            sprite.setRegion(connectAnimation.getKeyFrame(elapsedTime, true));
+            sprite.draw(batch);
         }
+
         for(HashMap.Entry<String, Avatar> entry: friendlyPlayers.entrySet()) {
+
             entry.getValue().draw(batch);
         }
         batch.end();
@@ -220,6 +241,10 @@ public class JoinGame implements Screen {
     private void handleInput(float deltaTime) {
 
         if(player != null) {
+
+            if(Gdx.input.isTouched()) {
+               bullet = new Bullet(player.getX(), player.getY(), Gdx.input.getX(), Gdx.input.getY());
+            }
 
             if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
 

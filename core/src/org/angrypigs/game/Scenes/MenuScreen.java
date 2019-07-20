@@ -2,7 +2,6 @@ package org.angrypigs.game.Scenes;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.angrypigs.game.AngryPigs;
 import org.angrypigs.game.offline.StoryMode;
-import org.angrypigs.game.online.Multiplayer;
+import org.angrypigs.game.online.JoinGame;
 
 public class MenuScreen implements Screen {
 
@@ -77,7 +76,7 @@ public class MenuScreen implements Screen {
             onlineHover.draw(batch);
 
             if(Gdx.input.isTouched())
-                game.setScreen(new Multiplayer(this.game));
+                game.setScreen(new JoinGame(this.game));
         }
 
         batch.end();
