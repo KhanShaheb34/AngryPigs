@@ -20,6 +20,7 @@ public class Help implements Screen {
 
     @Override
     public void render(float delta) {
+
         game.batch.begin();
         bg.draw(game.batch);
         game.batch.end();
@@ -47,6 +48,7 @@ public class Help implements Screen {
 
     @Override
     public void dispose() {
+
         game.batch.dispose();
         game.dispose();
     }

@@ -20,6 +20,7 @@ public class Settings implements Screen {
 
     @Override
     public void render(float delta) {
+
         game.batch.begin();
         bg.draw(game.batch);
         game.batch.end();
