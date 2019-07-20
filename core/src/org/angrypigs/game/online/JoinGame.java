@@ -57,7 +57,7 @@ public class JoinGame implements Screen {
     private void connectSocket() {
 
         try {
-            socket = IO.socket("http://127.0.0.1:8080");
+            socket = IO.socket("https://dry-ravine-95521.herokuapp.com/");
             socket.connect();
             configSocketEvent();
         } catch (Exception e) {
@@ -176,12 +176,13 @@ public class JoinGame implements Screen {
         elapsedTime += delta;
         handleInput(Gdx.graphics.getDeltaTime());
         updetaServer(Gdx.graphics.getDeltaTime());
-        bullet.update();
 
         batch.begin();
 
         if(player != null) {
             player.draw(batch);
+            if(player.bullet != null)
+                player.bullet.update();
         } else {
             sprite.setRegion(connectAnimation.getKeyFrame(elapsedTime, true));
             sprite.draw(batch);
@@ -189,6 +190,8 @@ public class JoinGame implements Screen {
 
         for(HashMap.Entry<String, Avatar> entry: friendlyPlayers.entrySet()) {
             entry.getValue().draw(batch);
+            entry.getValue().bullet.update();
+            entry.getValue().bullet.draw(batch);
         }
 
         batch.end();
@@ -205,10 +208,10 @@ public class JoinGame implements Screen {
             } else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 player.setPosition(player.getX() + (200 * deltaTime), player.getY());
             }
-            if(Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
-                socket.disconnect();
-                game.setScreen(new MenuScreen(game));
-            }
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
+            socket.disconnect();
+            game.setScreen(new MenuScreen(game));
         }
     }
 

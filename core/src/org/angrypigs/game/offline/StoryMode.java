@@ -138,6 +138,8 @@ public class StoryMode implements Screen {
     @Override
     public void dispose() {
         wizard.dispose();
+        hud.dispose();
+        game.dispose();
     }
 
     public OrthographicCamera getCam() {
