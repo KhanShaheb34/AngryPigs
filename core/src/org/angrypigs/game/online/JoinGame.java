@@ -206,6 +206,7 @@ public class JoinGame implements Screen {
                 player.setPosition(player.getX() + (200 * deltaTime), player.getY());
             }
             if(Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
+                socket.disconnect();
                 game.setScreen(new MenuScreen(game));
             }
         }
