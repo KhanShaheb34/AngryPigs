@@ -1,5 +1,6 @@
 package org.angrypigs.game.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,7 +12,8 @@ public class Enemy extends Sprite {
     private Vector2 initPos;
     private boolean alive = true;
     private Bullet bullet;
-    StoryMode game;
+    private StoryMode game;
+    private float bulletTimer;
 
     public Enemy(Texture texture, StoryMode game) {
         super(texture);
@@ -25,7 +27,11 @@ public class Enemy extends Sprite {
     }
 
     public void fire(float x, float y) {
-        game.shoot(new EnemyBullet(super.getX(), super.getY(), x, y));
+        bulletTimer += Gdx.graphics.getDeltaTime();
+        if (bulletTimer >= 0.5) {
+            game.shoot(new EnemyBullet(super.getX(), super.getY(), x, y));
+            bulletTimer = 0;
+        }
     }
 
     public void kill() {
