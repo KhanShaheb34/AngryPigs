@@ -77,7 +77,7 @@ public class StoryMode implements Screen {
         onkShoytan = new ArrayList<Enemy>();
         moraShoytan = new ArrayList<Enemy>();
 
-        Texture bird = new Texture("Bird/bird.png");
+        Texture bird = new Texture("Bird/bird2.png");
 
         for(int i = 0; i < 30; i++) {
             onkShoytan.add(new Enemy(bird));
@@ -86,8 +86,7 @@ public class StoryMode implements Screen {
         Random random = new Random();
 
         for (Enemy shoytan : onkShoytan) {
-            shoytan.setPos(random.nextInt(3700) + 600, Constants.HEIGHT);
-            shoytan.setScale(0.6f);
+            shoytan.setPosition(random.nextInt(3700) + 1000, 300);
         }
     }
 
