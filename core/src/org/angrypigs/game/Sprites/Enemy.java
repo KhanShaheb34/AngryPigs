@@ -21,7 +21,7 @@ public class Enemy extends Sprite {
 
     public void fire(float x, float y) {
         bulletTimer += Gdx.graphics.getDeltaTime();
-        if (bulletTimer >= 1f) {
+        if (bulletTimer >= 1f && !game.getWizard().dying) {
             game.shoot(new EnemyBullet(super.getX(), super.getY(), x, y));
             bulletTimer = 0;
         }

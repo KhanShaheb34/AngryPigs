@@ -2,8 +2,10 @@ package org.angrypigs.game.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.*;
+import org.angrypigs.game.Scenes.GameOver;
 import org.angrypigs.game.Util.PVector;
 import org.angrypigs.game.Util.WizardState;
+import org.angrypigs.game.offline.StoryMode;
 
 import static org.angrypigs.game.Util.WizardState.*;
 
@@ -23,10 +25,11 @@ public class Wizard extends Sprite {
     private PVector loc, vel, acc;
     private PVector gravity;
     public boolean dying, jumping, hurting, attacking;
+    private StoryMode game;
 
-    public Wizard() {
+    public Wizard(StoryMode game) {
         atlas = new TextureAtlas("Spritesheets/MagicWizard.atlas");
-
+        this.game = game;
         idleAnimation = new Animation<TextureRegion>(1f/6f, atlas.findRegions("1_IDLE"));
         walkAnimation = new Animation<TextureRegion>(1f/6f, atlas.findRegions("2_WALK"));
         runAnimation = new Animation<TextureRegion>(1f/6f, atlas.findRegions("3_RUN"));
@@ -72,6 +75,7 @@ public class Wizard extends Sprite {
                 break;
             case DIE:
                 sprite.setRegion(dieAnimation.getKeyFrame(stateTime, false));
+                sprite.setScale(1);
                 break;
             case JUMP:
                 sprite.setRegion(jumpAnimation.getKeyFrame(stateTime, false));
@@ -108,8 +112,10 @@ public class Wizard extends Sprite {
         }
         sprite.setPosition(loc.x, loc.y);
         if (dying && dieAnimation.isAnimationFinished(stateTime)) {
+            game.game.setScreen(new GameOver(game.game));
             this.dispose();
             sprite.setPosition(-500, -500);
+
         }
         vel = new PVector(0, vel.y);
     }

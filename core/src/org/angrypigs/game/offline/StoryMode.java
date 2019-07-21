@@ -24,7 +24,7 @@ import java.util.Random;
 
 public class StoryMode implements Screen {
 
-    private AngryPigs game;
+    public AngryPigs game;
     private StoryHud hud;
     private boolean pause = false;
     private OrthographicCamera cam;
@@ -71,7 +71,7 @@ public class StoryMode implements Screen {
         explosions = new ArrayList<Explosion>();
         toRemoveExp = new ArrayList<Explosion>();
 
-        wizard = new Wizard();
+        wizard = new Wizard(this);
         handler = new OfflineInputHandler(this);
 
         onkShoytan = new ArrayList<Enemy>();
