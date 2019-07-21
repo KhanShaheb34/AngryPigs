@@ -79,14 +79,15 @@ public class StoryMode implements Screen {
 
         Texture bird = new Texture("Bird/bird2.png");
 
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < 10; i++) {
             onkShoytan.add(new Enemy(bird, this));
         }
 
         Random random = new Random();
 
         for (Enemy shoytan : onkShoytan) {
-            shoytan.setPosition(random.nextInt(2700) + 1000, 300);
+            shoytan.setPosition(random.nextInt(2700) + 500, random.nextInt(300) + 300);
+            shoytan.setScale(0.9f);
         }
     }
 
@@ -114,24 +115,35 @@ public class StoryMode implements Screen {
             wizard.draw(game.batch);
 
             for(Enemy shoytan : onkShoytan) {
-                shoytan.draw(game.batch);
-                shoytan.fire(wizard.getPosition().x + 100, wizard.getPosition().y + 100);
                 if(!shoytan.isAlive()) {
                     moraShoytan.add(shoytan);
                 }
-            }
-
-            onkShoytan.removeAll(moraShoytan);
-
-            for(Bullet bullet: bullets) {
-                bullet.draw(game.batch);
-                if (bullet.removed) {
-                    explosions.add(new Explosion(bullet.getLoc().x, bullet.getLoc().y));
-                    toRemoveBul.add(bullet);
+                if(shoytan.getX() - wizard.getPosition().x <= 1100) {
+                    shoytan.draw(game.batch);
+                    shoytan.fire(wizard.getPosition().x + 100, wizard.getPosition().y + 100);
                 }
+                for(Bullet bullet: bullets) {
+                    if(bullet.getX() >= shoytan.getX() - 10 && bullet.getX() <= shoytan.getX() + 50 && !bullet.shoytan &&
+                            bullet.getY() >= shoytan.getY() - 10 && bullet.getY() <= shoytan.getY() + 70) {
+                        shoytan.life--;
+                        bullet.removed = true;
+                        explosions.add(new Explosion(bullet.getLoc().x, bullet.getLoc().y));
+                    }
+                    if(bullet.getX() >= wizard.getPosition().x - 100 && bullet.getX() <= wizard.getPosition().x + 100 &&
+                            bullet.shoytan && bullet.getY() >= wizard.getPosition().y && bullet.getY() <= wizard.getPosition().y + 200) {
+                        hud.life--;
+                        if(hud.life <= 0)
+                            wizard.die();
+                    }
+                    bullet.draw(game.batch);
+                    if (bullet.removed) {
+                        explosions.add(new Explosion(bullet.getLoc().x, bullet.getLoc().y));
+                        toRemoveBul.add(bullet);
+                    }
+                }
+                bullets.removeAll(toRemoveBul);
             }
-
-            bullets.removeAll(toRemoveBul);
+            onkShoytan.removeAll(moraShoytan);
 
             for(Explosion explosion: explosions) {
                 explosion.draw(game.batch);
@@ -157,6 +169,7 @@ public class StoryMode implements Screen {
 
     private void update(float dt) {
         cam.update();
+        hud.update();
         for (Bullet bullet: bullets) {
             bullet.update();
         }

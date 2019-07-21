@@ -15,21 +15,22 @@ import org.angrypigs.game.Util.Constants;
 public class StoryHud implements Disposable {
     public Stage stage;
     private Viewport viewport;
+    private Table table;
 
-    private int life;
-    private int level;
+    public int life;
+    public int level;
 
     private Label lifeLabel;
     private Label levelLabel;
 
     public StoryHud(SpriteBatch sb) {
-        life = 5;
+        life = 50;
         level = 1;
 
         viewport = new FitViewport(Constants.WIDTH, Constants.HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
-        Table table = new Table();
+        table = new Table();
         table.top();
         table.setFillParent(true);
 
@@ -45,5 +46,10 @@ public class StoryHud implements Disposable {
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+    public void update() {
+        lifeLabel.setText(String.format("LIFE: %01d", life));
+        levelLabel.setText(String.format("LEVEL: %01d", level));
     }
 }

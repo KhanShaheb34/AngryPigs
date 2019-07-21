@@ -9,21 +9,14 @@ import org.angrypigs.game.offline.StoryMode;
 
 public class Enemy extends Sprite {
 
-    private Vector2 initPos;
-    private boolean alive = true;
-    private Bullet bullet;
+    public int life;
     private StoryMode game;
     private float bulletTimer;
 
     public Enemy(Texture texture, StoryMode game) {
         super(texture);
-        initPos = new Vector2(0, 0);
         this.game = game;
-    }
-
-    public void setPos(float x, float y) {
-        initPos.x = x;
-        initPos.y = y;
+        life = 1;
     }
 
     public void fire(float x, float y) {
@@ -34,25 +27,18 @@ public class Enemy extends Sprite {
         }
     }
 
-    public void kill() {
-        alive = false;
-    }
-
     public boolean isAlive() {
-        return alive;
+        return life >= 0;
     }
 
     public void update() {
-        if(bullet != null)
-            bullet.update();
+
     }
 
     @Override
     public void draw(Batch batch) {
         batch.begin();
         super.draw(batch);
-        if(bullet != null)
-            bullet.draw(batch);
         batch.end();
     }
 }

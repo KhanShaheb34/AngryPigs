@@ -8,6 +8,7 @@ import org.angrypigs.game.Util.PVector;
 public class Bullet extends Sprite {
     private Sprite sprite;
     public PVector loc;
+    public boolean shoytan = false;
     private PVector vel, acc, dir;
     public float topSpeed, sx, sy, ex, ey;
     public boolean removed;
@@ -53,6 +54,14 @@ public class Bullet extends Sprite {
         sb.begin();
         if(!removed) sprite.draw(sb);
         sb.end();
+    }
+
+    public float getX() {
+        return sprite.getX();
+    }
+
+    public float getY() {
+        return sprite.getY();
     }
 
     public PVector getLoc() {
