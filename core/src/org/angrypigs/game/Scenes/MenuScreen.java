@@ -3,6 +3,7 @@ package org.angrypigs.game.Scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -16,7 +17,12 @@ public class MenuScreen implements Screen {
     private AngryPigs game;
     private SpriteBatch batch;
     private boolean snd = true;
-    private Sprite bgSprite, play, online, playHover, onlineHover, settings, music, about, help, settings_hover, music_hover, about_hover, help_hover, music_off, music_off_hover;
+    private Sprite bgSprite, play, online, playHover, onlineHover, settings,
+            music, about, help, settings_hover, music_hover,
+            about_hover, help_hover, music_off, music_off_hover;
+    private Music music_buff;
+    private StoryMode story;
+    private JoinGame multiplayer;
 
     public MenuScreen(AngryPigs game) {
 
@@ -38,6 +44,11 @@ public class MenuScreen implements Screen {
         Texture hht = new Texture(Gdx.files.internal("BG/menu/faq_hover.png"));
         Texture aht = new Texture(Gdx.files.internal("BG/menu/about_hover.png"));
         Texture mht = new Texture(Gdx.files.internal("BG/menu/sound_hover.png"));
+        music_buff = Gdx.audio.newMusic(Gdx.files.internal("sound/bg.mp3"));
+
+        music_buff.setLooping(true);
+        if(!music_buff.isPlaying())
+            music_buff.play();
 
         music_off_hover = new Sprite(moth);
         music_off = new Sprite(mot);
@@ -113,16 +124,20 @@ public class MenuScreen implements Screen {
                 Gdx.input.getY() >= 320 && Gdx.input.getY() <= 320 + 110) {
 
             playHover.draw(batch);
-            if(Gdx.input.isTouched())
-                game.setScreen(new StoryMode(this.game));
+            if(Gdx.input.isTouched()) {
+                story = new StoryMode(this.game, this);
+                game.setScreen(story);
+            }
         }
 
         if(Gdx.input.getX() >= 700 && Gdx.input.getX() <= (700 + 110) &&
                 Gdx.input.getY() >= 320 && Gdx.input.getY() <= 320 + 110) {
 
             onlineHover.draw(batch);
-            if(Gdx.input.isTouched())
-                game.setScreen(new JoinGame(this.game));
+            if(Gdx.input.isTouched()) {
+                multiplayer = new JoinGame(game, this);
+                game.setScreen(multiplayer);
+            }
         }
 
         if(Gdx.input.getX() >= 1070 && Gdx.input.getX() <= (1070 + 110) &&
@@ -153,12 +168,16 @@ public class MenuScreen implements Screen {
                 Gdx.input.getY() >= 560 && Gdx.input.getY() <= 560 + 110) {
             if(snd) {
                 music_hover.draw(batch);
-                if(Gdx.input.justTouched())
+                if(Gdx.input.justTouched()) {
                     snd = false;
+                    music_buff.pause();
+                }
             } else {
                 music_off_hover.draw(batch);
-                if(Gdx.input.justTouched())
+                if(Gdx.input.justTouched()) {
                     snd = true;
+                    music_buff.play();
+                }
             }
         }
 
@@ -190,6 +209,9 @@ public class MenuScreen implements Screen {
 
         game.dispose();
         batch.dispose();
+        music_buff.dispose();
+        multiplayer.dispose();
+        story.dispose();
     }
 }
 

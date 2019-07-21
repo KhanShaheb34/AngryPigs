@@ -37,8 +37,9 @@ public class JoinGame implements Screen {
     private float elapsedTime;
     private Animation<TextureRegion> connectAnimation;
     private HashMap <String, Avatar> friendlyPlayers;
+    private MenuScreen menu;
 
-    public JoinGame(AngryPigs g) {
+    public JoinGame(AngryPigs g, MenuScreen menu) {
 
         TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("Spritesheets/wait.atlas"));
         connectAnimation = new Animation<TextureRegion>(1 / 20f, atlas.findRegions("wait"));
@@ -46,6 +47,7 @@ public class JoinGame implements Screen {
         sprite.setPosition(Constants.WIDTH / 2 - 110, Constants.HEIGHT / 2 - 150);
         playerTex = new Texture("ship/playerShip2.png");
         enemyTex = new Texture("ship/playerShip.png");
+        this.menu = menu;
         friendlyPlayers = new HashMap<String, Avatar>();
         bullet = new Bullet(0, 0, 0, 0);
         sprite.setScale(0.7f);
@@ -190,8 +192,10 @@ public class JoinGame implements Screen {
 
         for(HashMap.Entry<String, Avatar> entry: friendlyPlayers.entrySet()) {
             entry.getValue().draw(batch);
-            entry.getValue().bullet.update();
-            entry.getValue().bullet.draw(batch);
+            if(entry.getValue().bullet != null) {
+                entry.getValue().bullet.update();
+                entry.getValue().bullet.draw(batch);
+            }
         }
 
         batch.end();
@@ -211,7 +215,7 @@ public class JoinGame implements Screen {
         }
         if(Gdx.input.isKeyPressed(Input.Keys.BACKSPACE)) {
             socket.disconnect();
-            game.setScreen(new MenuScreen(game));
+            game.setScreen(menu);
         }
     }
 
