@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import org.angrypigs.game.Sprites.Bullet;
 import org.angrypigs.game.Sprites.Wizard;
 import org.angrypigs.game.Util.Constants;
 import org.angrypigs.game.Util.PVector;
@@ -41,7 +42,7 @@ public class OfflineInputHandler {
         }
         if(Gdx.input.justTouched()) {
             wizard.attack();
-            game.shoot(wizard.getPosition().x + 140, wizard.getPosition().y + 120, getMouse().x - 16, getMouse().y - 16);
+            game.shoot(new Bullet(wizard.getPosition().x + 140, wizard.getPosition().y + 120, getMouse().x - 16, getMouse().y - 16));
             return true;
         }
         if(Gdx.input.isKeyPressed(Input.Keys.H)) {

@@ -7,8 +7,9 @@ import org.angrypigs.game.Util.PVector;
 
 public class Bullet extends Sprite {
     private Sprite sprite;
-    private PVector loc, vel, acc, dir;
-    private float topSpeed, sx, sy, ex, ey;
+    public PVector loc;
+    private PVector vel, acc, dir;
+    public float topSpeed, sx, sy, ex, ey;
     public boolean removed;
 
     public Bullet(float sx, float sy, float ex, float ey) {
@@ -39,11 +40,13 @@ public class Bullet extends Sprite {
 
         if(!removed) sprite.setPosition(loc.x, loc.y);
 
-        if(loc.x > ex || loc.y > ey || loc.y < 0){
+        checkRemove();
+
+    }
+
+    public void checkRemove() {
+        if(loc.x > ex || loc.y > ey || loc.y < 0)
             removed = true;
-
-        }
-
     }
 
     public void draw(SpriteBatch sb) {

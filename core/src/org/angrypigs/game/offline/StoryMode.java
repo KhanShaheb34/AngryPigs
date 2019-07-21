@@ -79,8 +79,8 @@ public class StoryMode implements Screen {
 
         Texture bird = new Texture("Bird/bird2.png");
 
-        for(int i = 0; i < 30; i++) {
-            onkShoytan.add(new Enemy(bird));
+        for(int i = 0; i < 1; i++) {
+            onkShoytan.add(new Enemy(bird, this));
         }
 
         Random random = new Random();
@@ -115,6 +115,7 @@ public class StoryMode implements Screen {
 
             for(Enemy shoytan : onkShoytan) {
                 shoytan.draw(game.batch);
+                shoytan.fire(wizard.getPosition().x, wizard.getPosition().y);
                 if(!shoytan.isAlive()) {
                     moraShoytan.add(shoytan);
                 }
@@ -164,8 +165,7 @@ public class StoryMode implements Screen {
         }
     }
 
-    public void shoot(float sx, float sy, float ex, float ey) {
-        Bullet bullet = new Bullet(sx, sy, ex, ey);
+    public void shoot(Bullet bullet) {
         bullets.add(bullet);
     }
 

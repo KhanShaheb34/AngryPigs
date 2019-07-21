@@ -4,16 +4,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import org.angrypigs.game.offline.StoryMode;
 
 public class Enemy extends Sprite {
 
     private Vector2 initPos;
     private boolean alive = true;
     private Bullet bullet;
+    StoryMode game;
 
-    public Enemy(Texture texture) {
+    public Enemy(Texture texture, StoryMode game) {
         super(texture);
         initPos = new Vector2(0, 0);
+        this.game = game;
     }
 
     public void setPos(float x, float y) {
@@ -22,7 +25,7 @@ public class Enemy extends Sprite {
     }
 
     public void fire(float x, float y) {
-        bullet = new Bullet(initPos.x, initPos.y, x, y);
+        game.shoot(new EnemyBullet(super.getX(), super.getY(), x, y));
     }
 
     public void kill() {
